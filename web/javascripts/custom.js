@@ -4,7 +4,6 @@
 let animatedBackgroundIsEnabled = false
 
 /* --------- ON PAGE LOAD ----------- */
-
 MutationObserver = window.MutationObserver || window.WebKitMutationObserver
 var observer = new MutationObserver(function (mutations, observer) {
     if (mutations.find((elem) => elem.attributeName == 'data-md-scrollfix') != undefined) {
@@ -16,6 +15,8 @@ var observer = new MutationObserver(function (mutations, observer) {
         }
         replacePermalinkIcon()
         makeImagesClickable()
+        sidebarExternalLinksNewTab()
+        onInitialLoad()
         //addFadeAnim()
         //addCssClasses()
 
@@ -24,11 +25,18 @@ var observer = new MutationObserver(function (mutations, observer) {
         }
     }
 })
+
+function onInitialLoad() {
+    headerStyling()
+}
+
+
+/* ON JS LOAD */
 observer.observe(document, {
     subtree: true,
     attributes: true,
 })
-
+onInitialLoad()
 
 /* --------- FUNCTIONS ----------- */
 
@@ -37,10 +45,16 @@ function makeImagesClickable() {
     background.addEventListener('click', hideImagePreview)
 
     const images = document.querySelector('.md-main').querySelectorAll('img')
-
+    
     for(let i = 0; i < images.length; i++) {
         const image = images[i]
-        if (image.classList.contains('not-clickable') || image.parentElement.classList.contains('md-logo')) continue
+        
+        if (
+            image.classList.contains('not-clickable') 
+            || image.parentElement.classList.contains('md-logo')
+            || image.parentElement.classList.contains('github-avatar')
+        ) continue
+
         image.setAttribute('style', 'cursor: pointer')
         image.addEventListener('click', imageClicked)
     }
@@ -153,6 +167,47 @@ function addFadeAnim() {
     }
 }
 
+function sidebarExternalLinksNewTab() {
+    const links = document.querySelectorAll('a[href^="htt"].md-nav__link')
+
+    for (let i = 0, length = links.length; i < length; i++) {
+        const link = links[i]
+        link.target = '_blank'
+    }
+}
+
+function headerStyling() {
+    const header = document.querySelector('body > header > nav.md-header__inner.md-grid > a')
+
+    if (header && header.children.length == 1) {
+        const div = document.createElement('div')
+        div.classList.add('logo-text')
+        div.innerHTML = '<span class="md-ellipsis" style="font-weight: 900;">Hedge</span><span class="md-ellipsis" style="font-weight: 100;">Docs</span>'
+
+        header.appendChild(div)
+        /*header[0].innerHTML = 
+            '<img class="logo-image" src="/web/images/icon.svg" alt="logo">\
+            <div class="logo-text"><span class="md-ellipsis" style="font-weight: 900;">Hedge</span><span class="md-ellipsis" style="font-weight: 100;">Docs</span></div>'*/
+
+        const headerDiv = document.querySelector('.md-header__inner')
+        if (headerDiv) {
+            headerDiv.insertBefore(headerDiv.children[1], headerDiv.children[0])
+        }
+    }
+
+    const oldHeader = document.querySelector('.md-header__topic')
+
+    if (oldHeader) {
+        oldHeader.remove()
+    }
+    
+    const mobileSidebarHeader = document.querySelector('body > div.md-container > main > div > div.md-sidebar.md-sidebar--primary > div > div > nav > label')
+
+    mobileSidebarHeader.innerHTML = '<a href="/" title="HedgeDocs" class="md-nav__button md-logo" aria-label="HedgeDocs" data-md-component="logo">\
+                                        <img src="/web/images/icon.svg" alt="logo">\
+                                    </a>'
+}
+
 function replaceNavLinks() {
     const links = document.querySelectorAll('.md-nav__link')
     for (let i = 0, length = links.length; i < length; i++) {
@@ -183,3 +238,7 @@ function replaceNavLinks() {
         */
     }
 }
+
+
+/* SHOW BODY WHEN SCRIPT LOADS */
+document.body.style.display = 'flex'

@@ -1,4 +1,5 @@
 /* GENERAL */
+body { display:none; } /* For initial JS Load. Changes to "flex" after custom.js executes */
 
 :root {
     --imagePreview-finalScale: 1.2;
@@ -12,6 +13,10 @@
 body {
     background-attachment: fixed;
     background-image: var(--background-color);
+}
+
+.md-main__inner {
+    margin-top: .5rem;
 }
 
 .md-footer {
@@ -46,14 +51,72 @@ body {
     font-weight: bold;
 }
 
+/* HEADER */
+
 [dir=ltr] .md-typeset .headerlink {
     margin-left: .25rem;
+}
+
+[dir=ltr] .md-header__title {
+    margin: 0em;
+    padding-top: .1em;
+}
+
+body > header > nav.md-header__inner.md-grid > div.md-header__title > div > div:nth-child(2) {
+    font-weight: normal;
+}
+
+@media screen and (max-width: 76.25em) {
+    [dir=ltr] .md-header__title {
+        padding-top: .02em;
+    }
 }
 
 @media screen and (max-width: 44.9375em) {
     .md-content__inner>.highlight {
         margin: auto;
     }
+}
+
+@media screen and (max-width: 76.234375em) {
+    .md-nav--primary .md-nav__title[for=__drawer] {
+        height: 5em;
+    }
+}
+
+input:placeholder-shown {
+    font-style: italic;
+}
+
+.md-header__button.md-logo {
+    font-size: 17pt;
+    display: inline-flex !important;
+    align-items: center;
+}
+
+.md-header__button.md-logo img, .md-header__button.md-logo svg {
+    margin-right: .2em;
+}
+
+.md-header__button.md-logo img, .md-header__button.md-logo svg {
+    width: 1.2em;
+}
+
+.logo-text {
+    display: inline-block;
+    padding-top: .1em;
+}
+
+/* EXTERNAL LINKS IN SIDEBAR */
+
+a[href^="htt"].md-nav__link::before {
+    content: "";
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' height='.8rem' viewBox='0 0 512 512'%3E%3Cpath d='M320 0c-17.7 0-32 14.3-32 32s14.3 32 32 32h82.7L201.4 265.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L448 109.3V192c0 17.7 14.3 32 32 32s32-14.3 32-32V32c0-17.7-14.3-32-32-32H320zM80 32C35.8 32 0 67.8 0 112V432c0 44.2 35.8 80 80 80H400c44.2 0 80-35.8 80-80V320c0-17.7-14.3-32-32-32s-32 14.3-32 32V432c0 8.8-7.2 16-16 16H80c-8.8 0-16-7.2-16-16V112c0-8.8 7.2-16 16-16H192c17.7 0 32-14.3 32-32s-14.3-32-32-32H80z'/%3E%3C/svg%3E%0A");
+    width: .9em;
+    height: .9em;
+    background-repeat: no-repeat;
+    background-size: .9em .9em;
+    margin: 2px -.2rem 0 0;
 }
 
 /* IMAGE PREVIEW */
@@ -190,6 +253,8 @@ body {
 
     .homepage-buttons {
         display: block !important;
+        margin-right: 0em !important;
+        margin-left: 0em !important;
     }
 }
 
@@ -203,6 +268,8 @@ body {
 
 .homepage-buttons {
     display: flex;
+    margin-right: -.5em;
+    margin-left: -.5em;
 }
 
 .md-tabs__item {
